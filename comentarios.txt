@@ -1,0 +1,13 @@
+Este proyecto/ejemplo trata el renderizado de parte del servidor:
+Vamos a enviar la página ya montada y ejecutada desde la parte del servidor con 
+motores de plantilla en Express.
+
+Cuando abramos los html en el navegador e inspeccionemos no veremos los scripts que 
+estamos haciendo ahora (alguno sí, pero los "gordos", no).
+
+Los motores de plantillas por defecto la carpeta para vistas se
+llama views, por eso la nuestra donde están los archivos que 
+mostraremos en los navegadores se llama así.
+
+Por un lado tenemos la información, por otra el controlador de cómo se 
+trata y por otra la visualización
