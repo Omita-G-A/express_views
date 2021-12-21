@@ -31,6 +31,8 @@ app.set("view engine", "ejs");
 // app.use(morgan("tiny"));
 
 app.use(express.static("public"));
+app.use(express.urlencoded({ extended: true })); // lo del urlencode extended: false
+// es para que no nos salte un aviso relacionado con body parse. Investigar esto.
 
 const blogs = [
   {
@@ -58,11 +60,12 @@ app.get("/", (req, res) => {
   res.render("index", { title: "Inicio", blogs });
 });
 
-// OJO QUE ESTO DEL POST ME HA SALIDO MAL. MIRAR GITHUB PROFE
+// el req.body es lo que tiene que ver con el urlencode extended false.
 app.post("/", (req, res) => {
+  const { } = req.body;
+  console.log(req.body);
   const blog = { id: uuid.v4(), ...req.body }; // clonamos el objeto req.body con el spread operator
   blogs.push(blog);
-  console.log(req.body);
   console.log(blogs);
   res.redirect("/");
 });
@@ -78,7 +81,8 @@ app.get("/blog/create", (req, res) => {
 });
 
 app.get("/blog/:id", (req, res) => {
-  console.log(req.params);
+  console.log(req.params.id);
+  res.render(req.params.id);
 });
 
 app.use((req, res) => {
