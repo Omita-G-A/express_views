@@ -1,0 +1,36 @@
+<%- include("./partials/head.ejs") %> <%- include("./partials/nav.ejs") %>
+
+<main class="detailed-view">
+  <div class="detailed-blog">
+    <h2><%= blog.title %></h2>
+    <h4 class="sinopsis"><%= blog.resumen %></h4>
+    <p><%= blog.body %></p>  
+  </div>
+  <div class="message">
+  </div>
+  <div>
+    <!-- aquí "delete" se hace igual que el ejemplo de bluuweb, que utiliza <data-> -->
+    <a class="delete" href="#" data-id= <%= blog.id %> >🗑</a>
+    <a class="update" href="#">📝</a>
+  </div>
+</main>
+<%- include("./partials/footer.ejs") %>
+<script>
+  // fetch
+  const del = document.querySelector(".delete");
+
+  del.addEventListener("click", () => {
+    const ruta = `/blog/${del.dataset.id}`; // dataset.id se usa para recoger el valor de data-id
+
+    fetch(ruta, {method: "DELETE"})
+    .then((res) => res.json())
+    .then(data => window.location.href = data.redirect)
+    .catch(err => console.log(err))
+
+  });
+
+</script>
+
+</body>
+</html>
+

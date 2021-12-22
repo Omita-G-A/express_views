@@ -86,3 +86,11 @@
     padding: 10px 30px;
     
   }
+
+  a:hover {
+    color: darkslateblue;
+  }
+
+  .message {
+    overflow: hidden;
+  }

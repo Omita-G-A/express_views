@@ -1,8 +1,7 @@
-// llamar express
+// llamar express y las routas
 const express = require("express");
 const app = express();
-const morgan = require("morgan");
-const uuid = require("uuid");
+const blogRoutes = require("./routes/blogRoutes");
 
 // montar el servidor
 const PORT = process.env.PORT || 5000;
@@ -12,78 +11,24 @@ app.listen(PORT, () => console.log("servidor arrancado"));
 app.set("view engine", "ejs");
 // la extensión de los documentos html los cambiamos por .ejs
 
-// middleware con next
-// app.use((req, res, next) => {
-//   console.log("hay una petición");
-//   console.log("host: ", req.hostname);
-//   console.log("path: ", req.path);
-//   console.log("method: ", req.method);
-//   next();
-// });
-
-// app.use((req, res, next) => {
-//   console.log("Estoy en el segundo middleware");
-//   next();
-// });
-
-// // ejemplo de un middleware de terceros. Morgan es un logger
-// // de http request.
-// app.use(morgan("tiny"));
-
 app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true })); // lo del urlencode extended: false
 // es para que no nos salte un aviso relacionado con body parse. Investigar esto.
 
-const blogs = [
-  {
-    id: 1,
-    title: "Primer blog",
-    resumen: "Bla bla bla, ble ble, bloblobló.",
-    body: "pouiwhgHI",
-  },
-  {
-    id: 2,
-    title: "Segundo blog",
-    resumen: "Ble bla bla, ble ble, bloblobló.",
-    body: "kajgh",
-  },
-  {
-    id: 3,
-    title: "Tercer blog",
-    resumen: "Blibliblbi bla, ble ble, bloblobló.",
-    body: "iahgro",
-  },
-];
-
 // vamos montando las peticiones de páginas:
-app.get("/", (req, res) => {
-  res.render("index", { title: "Inicio", blogs });
-});
 
-// el req.body es lo que tiene que ver con el urlencode extended false.
-app.post("/", (req, res) => {
-  const { } = req.body;
-  console.log(req.body);
-  const blog = { id: uuid.v4(), ...req.body }; // clonamos el objeto req.body con el spread operator
-  blogs.push(blog);
-  console.log(blogs);
-  res.redirect("/");
+// creamos una redirección de la raíz a una ruta llamada "/blog"
+app.get("/", (req,res) => {
+  res.redirect("/blog")
 });
 
 app.get("/about", (req, res) => {
   res.render("about", { title: "Acerca de" });
 });
 
-app.get("/blog/create", (req, res) => {
-  // podemos escribir la ruta que
-  // queramos, no tiene porqué coincidir con el nombre del archivo.
-  res.render("create", { title: "Crea nueva entrada" });
-});
-
-app.get("/blog/:id", (req, res) => {
-  console.log(req.params.id);
-  res.render(req.params.id);
-});
+// para poder usar las rutas del archivo de las rutas uso el método use. Y le decimos 
+// que todas las rutas de blogRoutes las maneje añadiendo "/blog" delante.
+app.use("/blog", blogRoutes);
 
 app.use((req, res) => {
   // como status hace lo que tiene que hacer sobre el objeto y devuelve una
