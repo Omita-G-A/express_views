@@ -1,6 +1,6 @@
 // aquí tendremos todas las funcionalidades que inicialmente escribimos en app.js
 
-const blogs = require("../models/blog");
+const blogs = require("../models/Blog");
 const uuid = require("uuid");
 
 const blog_index = (req, res) => {
