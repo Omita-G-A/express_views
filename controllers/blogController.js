@@ -34,6 +34,34 @@ const blog_create_post = (req, res) => {
   res.redirect("/");
 };
 
+const blog_update_get = (req, res) => {
+  // buscar el blog con el id requerido dentro de blogs con el método find
+  const blog = blogs.find((blog) => blog.id == req.params.id);
+  // renderizamos en la ruta que le decimos
+  res.render("update", { title: "Editar entrada", blog });
+};
+
+const blog_update_post = (req, res) => {
+  // recorremos blogs en busca del blog concreto para poder hacer
+  // un splice para sustituir el blog modificado
+  blogs.forEach((blog, index) => {
+    if (blog.id == req.params.id) {
+      // Reasignamos lo que hemos sobreescrito en el formulario de actualizar simplemente con
+      // el spread operator --> siempre manteniendo el mismo id, eso es muy importante. Y
+      // con splice sustituimos un blog por el updated
+      const blogUpdated = { id: blog.id, ...req.body };
+      blogs.splice(index, 1, blogUpdated);
+      // otra forma es reasignando a través del índice del array
+      // blogs[index] = blogUpdated;
+    }
+  });
+  // redireccionamos a /blog/ + el id del blog que hemos modificado, el cual
+  // tenemos recogido en el req.params.id
+  res.redirect("/blog/" + req.params.id);
+  // otra opción sería un render:
+  // res.render("detail", { title: blog.title, blog });
+};
+
 const blog_delete = (req, res) => {
   blogs.forEach((blog, index) => {
     if (blog.id == req.params.id) {
@@ -51,4 +79,6 @@ module.exports = {
   blog_create_get,
   blog_create_post,
   blog_delete,
+  blog_update_get,
+  blog_update_post,
 };

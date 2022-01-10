@@ -1,14 +1,14 @@
 <%- include("./partials/head.ejs") %>
 <%- include("./partials/nav.ejs") %>
 <div class="content create-blog">
-  <h2>Nueva publicación</h2>
-  <form method="POST" action="/blog/:id">
+  <h2>Editar publicación</h2>
+  <form method="POST" action="/blog/update/<%= blog.id %>">
     <label for="title">Título</label>
-    <input type="text" name="title" id="title" />
+    <input type="text" name="title" id="title" value="<%= blog.title %>"/>
     <label for="resumen">Resumen</label>
-    <input type="text" name="resumen" id="resumen" />
+    <input type="text" name="resumen" id="resumen" value="<%= blog.resumen %>"/>
     <label for="texto-post">Texto del post</label>
-    <textarea name="body" id="texto-post"></textarea>
+    <textarea name="body" id="texto-post"><%= blog.body %></textarea>
     <!-- <button type="submit">Submit</button> -->
     <input type="submit" value="update" />
   </form>
