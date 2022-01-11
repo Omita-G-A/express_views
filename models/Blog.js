@@ -21,3 +21,5 @@ const blogSchema = new mongoose.Schema({
 // el nombre que queremos darle al modelo (que mongoose utilizará para crear la
 // colección --> modelo blog, colección blogs), y el esquema que queremos usar.
 const Blog = mongoose.model('blog', blogSchema);
+
+module.exports = Blog;
